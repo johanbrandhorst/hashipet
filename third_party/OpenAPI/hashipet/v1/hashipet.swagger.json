@@ -1,0 +1,122 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "hashipet/v1/hashipet.proto",
+    "version": "1.0"
+  },
+  "tags": [
+    {
+      "name": "PetService"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/pet/{name}": {
+      "get": {
+        "operationId": "PetService_GetPet",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1Pet"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PetService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1GetPetResponse": {
+      "type": "object",
+      "properties": {
+        "pet": {
+          "$ref": "#/definitions/v1Pet"
+        }
+      }
+    },
+    "v1Pet": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "species": {
+          "$ref": "#/definitions/v1Species"
+        }
+      }
+    },
+    "v1Species": {
+      "type": "string",
+      "enum": [
+        "SPECIES_UNSPECIFIED",
+        "SPECIES_PIG",
+        "SPECIES_DOG",
+        "SPECIES_CAT"
+      ],
+      "default": "SPECIES_UNSPECIFIED"
+    }
+  },
+  "externalDocs": {
+    "description": "HashiPet API repository",
+    "url": "https://github.com/johanbrandhorst/hashipet"
+  }
+}

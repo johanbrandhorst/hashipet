@@ -1,8 +1,16 @@
-BUF_VERSION:=1.1.0
+BUF_VERSION:=1.4.0
+
+install:
+	go install github.com/bufbuild/buf/cmd/buf@v$(BUF_VERSION)
+
+format:
+	@buf format -w
 
 generate:
-	docker run -v $$(pwd):/src -w /src --rm bufbuild/buf:$(BUF_VERSION) generate
+	@buf generate
 
 lint:
-	docker run -v $$(pwd):/src -w /src --rm bufbuild/buf:$(BUF_VERSION) lint
-	docker run -v $$(pwd):/src -w /src --rm bufbuild/buf:$(BUF_VERSION) breaking --against 'https://github.com/johanbrandhorst/grpc-gateway-boilerplate.git#branch=master'
+	@buf lint
+	@buf breaking --against 'https://github.com/johanbrandhorst/hashipet.git#branch=master'
+
+.PHONY: install format generate lint

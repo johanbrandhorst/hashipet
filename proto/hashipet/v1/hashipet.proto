@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package hashipet.v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    version: "1.0";
+  };
+  external_docs: {
+    url: "https://github.com/johanbrandhorst/hashipet";
+    description: "HashiPet API repository";
+  }
+  schemes: HTTP;
+};
+
+enum Species {
+  SPECIES_UNSPECIFIED = 0;
+  SPECIES_PIG = 1;
+  SPECIES_DOG = 2;
+  SPECIES_CAT = 3;
+}
+
+message Pet {
+  string name = 1;
+  int32 age = 2;
+  string owner = 3;
+  Species species = 4;
+}
+
+service PetService {
+  rpc GetPet(GetPetRequest) returns (GetPetResponse) {
+    option (google.api.http) = {
+      get: "/v1/pet/{name}",
+      response_body: "pet",
+    };
+  }
+}
+
+message GetPetRequest {
+  string name = 1;
+}
+
+message GetPetResponse {
+  Pet pet = 1;
+}

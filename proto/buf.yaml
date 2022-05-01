@@ -1,0 +1,8 @@
+version: v1
+name: buf.build/johan/hashipet
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/grpc-ecosystem/grpc-gateway
+lint:
+  use:
+    - DEFAULT
