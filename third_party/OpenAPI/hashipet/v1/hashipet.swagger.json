@@ -168,9 +168,6 @@
                 },
                 "picture_url": {
                   "type": "string"
-                },
-                "the_best": {
-                  "type": "boolean"
                 }
               }
             }
@@ -257,9 +254,6 @@
         },
         "picture_url": {
           "type": "string"
-        },
-        "the_best": {
-          "type": "boolean"
         }
       }
     },
