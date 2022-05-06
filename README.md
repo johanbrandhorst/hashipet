@@ -3,19 +3,15 @@
 The API for pets of HashiCorp
 ## Requirements
 
-Go 1.16+
+Go 1.18+
 
 ## Running
 
-Running `main.go` starts a web server on https://0.0.0.0:11000/. You can configure
-the port used with the `$PORT` environment variable, and to serve on HTTP set
-`$SERVE_HTTP=true`.
+Running `main.go` starts a web server on http://0.0.0.0:8080/.
 
 ```
 $ go run main.go
 ```
-
-An OpenAPI UI is served on https://0.0.0.0:11000/.
 
 ## Example requests
 
