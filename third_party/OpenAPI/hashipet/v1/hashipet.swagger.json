@@ -58,7 +58,7 @@
         },
         "parameters": [
           {
-            "name": "body",
+            "name": "pet",
             "in": "body",
             "required": true,
             "schema": {
