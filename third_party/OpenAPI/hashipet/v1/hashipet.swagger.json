@@ -197,7 +197,7 @@
         "species": {
           "$ref": "#/definitions/v1Species"
         },
-        "pictureUrl": {
+        "picture_url": {
           "type": "string"
         }
       }

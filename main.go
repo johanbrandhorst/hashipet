@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/grpclog"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func main() {
@@ -72,7 +73,9 @@ func run() error {
 		return fmt.Errorf("failed to dial server: %w", err)
 	}
 
-	gwmux := runtime.NewServeMux()
+	gwmux := runtime.NewServeMux(runtime.WithMarshalerOption("*", &runtime.HTTPBodyMarshaler{Marshaler: &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{UseProtoNames: true},
+	}}))
 	err = hashipetv1.RegisterHashiPetServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		return fmt.Errorf("failed to register gateway: %w", err)
