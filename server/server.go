@@ -41,6 +41,9 @@ func (s *HashiPet) CreatePet(_ context.Context, req *hashipetv1.CreatePetRequest
 	default:
 		return nil, status.Error(codes.InvalidArgument, "unregonized species")
 	}
+	if req.GetPet().GetTheBest() {
+		return nil, status.Error(codes.InvalidArgument, "a pet cannot be the best from the start")
+	}
 	name := strings.ToLower(req.GetPet().GetName())
 	if _, ok := s.pets[name]; ok {
 		return nil, status.Errorf(codes.AlreadyExists, "pet %q already exists", req.GetPet().GetName())
@@ -88,4 +91,29 @@ func (s *HashiPet) DeletePet(_ context.Context, req *hashipetv1.DeletePetRequest
 	}
 	delete(s.pets, name)
 	return &emptypb.Empty{}, nil
+}
+
+func (s *HashiPet) UpdatePet(_ context.Context, req *hashipetv1.UpdatePetRequest) (*hashipetv1.UpdatePetResponse, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	name := strings.ToLower(req.GetPet().GetName())
+	pet, ok := s.pets[name]
+	if !ok {
+		return nil, status.Errorf(codes.NotFound, "pet %q not found 😔", req.GetPet().GetName())
+	}
+	for _, path := range req.GetUpdateMask().GetPaths() {
+		switch path {
+		case "owner":
+			pet.Owner = req.GetPet().GetOwner()
+		case "picture_url":
+			pet.PictureUrl = req.GetPet().GetPictureUrl()
+		case "the_best":
+			pet.TheBest = req.GetPet().GetTheBest()
+		default:
+			return nil, status.Errorf(codes.InvalidArgument, "unrecognized field %q", path)
+		}
+	}
+	return &hashipetv1.UpdatePetResponse{
+		Pet: pet,
+	}, nil
 }

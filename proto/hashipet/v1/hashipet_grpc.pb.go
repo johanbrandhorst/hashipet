@@ -23,6 +23,7 @@ type HashiPetServiceClient interface {
 	GetPet(ctx context.Context, in *GetPetRequest, opts ...grpc.CallOption) (*GetPetResponse, error)
 	ListPets(ctx context.Context, in *ListPetsRequest, opts ...grpc.CallOption) (*ListPetsResponse, error)
 	DeletePet(ctx context.Context, in *DeletePetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdatePet(ctx context.Context, in *UpdatePetRequest, opts ...grpc.CallOption) (*UpdatePetResponse, error)
 }
 
 type hashiPetServiceClient struct {
@@ -69,6 +70,15 @@ func (c *hashiPetServiceClient) DeletePet(ctx context.Context, in *DeletePetRequ
 	return out, nil
 }
 
+func (c *hashiPetServiceClient) UpdatePet(ctx context.Context, in *UpdatePetRequest, opts ...grpc.CallOption) (*UpdatePetResponse, error) {
+	out := new(UpdatePetResponse)
+	err := c.cc.Invoke(ctx, "/hashipet.v1.HashiPetService/UpdatePet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HashiPetServiceServer is the server API for HashiPetService service.
 // All implementations should embed UnimplementedHashiPetServiceServer
 // for forward compatibility
@@ -77,6 +87,7 @@ type HashiPetServiceServer interface {
 	GetPet(context.Context, *GetPetRequest) (*GetPetResponse, error)
 	ListPets(context.Context, *ListPetsRequest) (*ListPetsResponse, error)
 	DeletePet(context.Context, *DeletePetRequest) (*emptypb.Empty, error)
+	UpdatePet(context.Context, *UpdatePetRequest) (*UpdatePetResponse, error)
 }
 
 // UnimplementedHashiPetServiceServer should be embedded to have forward compatible implementations.
@@ -94,6 +105,9 @@ func (UnimplementedHashiPetServiceServer) ListPets(context.Context, *ListPetsReq
 }
 func (UnimplementedHashiPetServiceServer) DeletePet(context.Context, *DeletePetRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePet not implemented")
+}
+func (UnimplementedHashiPetServiceServer) UpdatePet(context.Context, *UpdatePetRequest) (*UpdatePetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePet not implemented")
 }
 
 // UnsafeHashiPetServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -179,6 +193,24 @@ func _HashiPetService_DeletePet_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HashiPetService_UpdatePet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HashiPetServiceServer).UpdatePet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/hashipet.v1.HashiPetService/UpdatePet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HashiPetServiceServer).UpdatePet(ctx, req.(*UpdatePetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HashiPetService_ServiceDesc is the grpc.ServiceDesc for HashiPetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -201,6 +233,10 @@ var HashiPetService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePet",
 			Handler:    _HashiPetService_DeletePet_Handler,
+		},
+		{
+			MethodName: "UpdatePet",
+			Handler:    _HashiPetService_UpdatePet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

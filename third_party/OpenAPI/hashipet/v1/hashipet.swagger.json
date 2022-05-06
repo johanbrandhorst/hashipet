@@ -128,6 +128,64 @@
           "HashiPetService"
         ]
       }
+    },
+    "/v1/pets/{pet.name}": {
+      "patch": {
+        "operationId": "HashiPetService_UpdatePet",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1Pet"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pet.name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pet",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "species": {
+                  "$ref": "#/definitions/v1Species"
+                },
+                "picture_url": {
+                  "type": "string"
+                },
+                "the_best": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          {
+            "name": "update_mask",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HashiPetService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -199,6 +257,9 @@
         },
         "picture_url": {
           "type": "string"
+        },
+        "the_best": {
+          "type": "boolean"
         }
       }
     },
@@ -211,6 +272,14 @@
         "SPECIES_CAT"
       ],
       "default": "SPECIES_UNSPECIFIED"
+    },
+    "v1UpdatePetResponse": {
+      "type": "object",
+      "properties": {
+        "pet": {
+          "$ref": "#/definitions/v1Pet"
+        }
+      }
     }
   },
   "externalDocs": {
