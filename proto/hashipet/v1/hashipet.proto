@@ -3,6 +3,7 @@ syntax = "proto3";
 package hashipet.v1;
 
 import "google/api/annotations.proto";
+import "google/api/httpbody.proto";
 import "google/api/visibility.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
@@ -63,6 +64,11 @@ service HashiPetService {
       patch: "/v1/pets/{pet.name}",
       body: "pet",
       response_body: "pet",
+    };
+  }
+  rpc ServePets(google.protobuf.Empty) returns (google.api.HttpBody) {
+    option (google.api.http) = {
+      get: "/pets",
     };
   }
 }

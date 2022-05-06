@@ -1,0 +1,35 @@
+{{ define "pets" }}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex min-h-screen justify-center bg-amber-50">
+      <div class="flex-1 flex flex-col justify-center space-y-48 py-36 mx-10">
+        <div class="flex flex-col items-center">
+          <h1 class="text-5xl p-5">HashiCorp pets</h1>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {{ range $pet := . }}
+            <div class="flex mx-auto w-84 flex-col justify-center bg-white rounded-2xl shadow-xl shadow-slate-300/60">
+              <img  class="aspect-video w-96 rounded-t-2xl object-cover object-center" src="{{ $pet.PictureUrl }}" alt="{{ $pet.Name }}" />
+              <div class="flex flex-row items-center justify-between p-4">
+                <div>
+                  <h2 class="text-2xl font-medium text-slate-600">{{ $pet.Name }}</h2>
+                  <h3 class="text-smf font-light">Owner: {{ $pet.Owner }}</h3>
+                </div>
+                {{ if $pet.TheBest }}
+                <p>💕</p>
+                {{ end }}
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{{ end }}

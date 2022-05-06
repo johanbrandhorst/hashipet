@@ -5,5 +5,9 @@ deps:
   - buf.build/grpc-ecosystem/grpc-gateway
 lint:
   rpc_allow_google_protobuf_empty_responses: true
+  rpc_allow_google_protobuf_empty_requests: true
   use:
     - DEFAULT
+  ignore_only:
+    RPC_RESPONSE_STANDARD_NAME:
+      - hashipet/v1/hashipet.proto

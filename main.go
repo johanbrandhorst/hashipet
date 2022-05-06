@@ -86,6 +86,7 @@ func run() error {
 	gatewayAddr := "0.0.0.0:8080"
 	http.Handle("/", oa)
 	http.Handle("/v1/", gwmux)
+	http.Handle("/pets", gwmux)
 	log.Info("Serving gRPC-Gateway and OpenAPI Documentation on http://", gatewayAddr)
 	return fmt.Errorf("serving gRPC-Gateway server: %w", http.ListenAndServe(gatewayAddr, nil))
 }
