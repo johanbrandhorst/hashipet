@@ -52,7 +52,7 @@ func run() error {
 	s := grpc.NewServer(
 		grpc.Creds(insecure.NewCredentials()),
 	)
-	hashipetv1.RegisterPetServiceServer(s, server.New())
+	hashipetv1.RegisterHashiPetServiceServer(s, server.New())
 
 	// Serve gRPC Server
 	log.Info("Serving gRPC on http://", addr)
@@ -73,7 +73,7 @@ func run() error {
 	}
 
 	gwmux := runtime.NewServeMux()
-	err = hashipetv1.RegisterPetServiceHandler(context.Background(), gwmux, conn)
+	err = hashipetv1.RegisterHashiPetServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		return fmt.Errorf("failed to register gateway: %w", err)
 	}

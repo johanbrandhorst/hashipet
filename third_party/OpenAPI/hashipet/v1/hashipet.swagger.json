@@ -6,7 +6,7 @@
   },
   "tags": [
     {
-      "name": "PetService"
+      "name": "HashiPetService"
     }
   ],
   "schemes": [
@@ -19,9 +19,61 @@
     "application/json"
   ],
   "paths": {
-    "/v1/pet/{name}": {
+    "/v1/pets": {
       "get": {
-        "operationId": "PetService_GetPet",
+        "operationId": "HashiPetService_ListPets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListPetsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "HashiPetService"
+        ]
+      },
+      "post": {
+        "operationId": "HashiPetService_CreatePet",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1Pet"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Pet"
+            }
+          }
+        ],
+        "tags": [
+          "HashiPetService"
+        ]
+      }
+    },
+    "/v1/pets/{name}": {
+      "get": {
+        "operationId": "HashiPetService_GetPet",
         "responses": {
           "200": {
             "description": "",
@@ -45,7 +97,35 @@
           }
         ],
         "tags": [
-          "PetService"
+          "HashiPetService"
+        ]
+      },
+      "delete": {
+        "operationId": "HashiPetService_DeletePet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "HashiPetService"
         ]
       }
     }
@@ -78,11 +158,30 @@
         }
       }
     },
+    "v1CreatePetResponse": {
+      "type": "object",
+      "properties": {
+        "pet": {
+          "$ref": "#/definitions/v1Pet"
+        }
+      }
+    },
     "v1GetPetResponse": {
       "type": "object",
       "properties": {
         "pet": {
           "$ref": "#/definitions/v1Pet"
+        }
+      }
+    },
+    "v1ListPetsResponse": {
+      "type": "object",
+      "properties": {
+        "pets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Pet"
+          }
         }
       }
     },
@@ -92,15 +191,14 @@
         "name": {
           "type": "string"
         },
-        "age": {
-          "type": "integer",
-          "format": "int32"
-        },
         "owner": {
           "type": "string"
         },
         "species": {
           "$ref": "#/definitions/v1Species"
+        },
+        "pictureUrl": {
+          "type": "string"
         }
       }
     },

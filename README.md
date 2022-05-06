@@ -16,3 +16,10 @@ $ go run main.go
 ```
 
 An OpenAPI UI is served on https://0.0.0.0:11000/.
+
+## Example requests
+```shell
+$ curl -X POST "http://0.0.0.0:8080/v1/pets" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"name\":\"Floyd\",\"owner\":\"Justin\",\"species\": \"SPECIES_PIG\",\"pictureUrl\":\"https://i.imgur.com/fbzdvB7.jpg\"}"
+$ curl -X POST "http://0.0.0.0:8080/v1/pets" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"name\":\"Penny\",\"owner\":\"Caroline\",\"species\": \"SPECIES_CAT\",\"pictureUrl\":\"https://i.imgur.com/i08E7uB.jpg\"}"
+$ curl -X POST "http://0.0.0.0:8080/v1/pets" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"name\":\"Bear\",\"owner\":\"Irena\",\"species\": \"SPECIES_DOG\",\"pictureUrl\":\"https://i.imgur.com/3koghMg.jpg\"}"
+```

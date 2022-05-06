@@ -4,5 +4,6 @@ deps:
   - buf.build/googleapis/googleapis
   - buf.build/grpc-ecosystem/grpc-gateway
 lint:
+  rpc_allow_google_protobuf_empty_responses: true
   use:
     - DEFAULT

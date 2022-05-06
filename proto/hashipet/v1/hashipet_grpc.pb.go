@@ -7,6 +7,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -14,84 +15,192 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// PetServiceClient is the client API for PetService service.
+// HashiPetServiceClient is the client API for HashiPetService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type PetServiceClient interface {
+type HashiPetServiceClient interface {
+	CreatePet(ctx context.Context, in *CreatePetRequest, opts ...grpc.CallOption) (*CreatePetResponse, error)
 	GetPet(ctx context.Context, in *GetPetRequest, opts ...grpc.CallOption) (*GetPetResponse, error)
+	ListPets(ctx context.Context, in *ListPetsRequest, opts ...grpc.CallOption) (*ListPetsResponse, error)
+	DeletePet(ctx context.Context, in *DeletePetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
-type petServiceClient struct {
+type hashiPetServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPetServiceClient(cc grpc.ClientConnInterface) PetServiceClient {
-	return &petServiceClient{cc}
+func NewHashiPetServiceClient(cc grpc.ClientConnInterface) HashiPetServiceClient {
+	return &hashiPetServiceClient{cc}
 }
 
-func (c *petServiceClient) GetPet(ctx context.Context, in *GetPetRequest, opts ...grpc.CallOption) (*GetPetResponse, error) {
-	out := new(GetPetResponse)
-	err := c.cc.Invoke(ctx, "/hashipet.v1.PetService/GetPet", in, out, opts...)
+func (c *hashiPetServiceClient) CreatePet(ctx context.Context, in *CreatePetRequest, opts ...grpc.CallOption) (*CreatePetResponse, error) {
+	out := new(CreatePetResponse)
+	err := c.cc.Invoke(ctx, "/hashipet.v1.HashiPetService/CreatePet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PetServiceServer is the server API for PetService service.
-// All implementations should embed UnimplementedPetServiceServer
+func (c *hashiPetServiceClient) GetPet(ctx context.Context, in *GetPetRequest, opts ...grpc.CallOption) (*GetPetResponse, error) {
+	out := new(GetPetResponse)
+	err := c.cc.Invoke(ctx, "/hashipet.v1.HashiPetService/GetPet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hashiPetServiceClient) ListPets(ctx context.Context, in *ListPetsRequest, opts ...grpc.CallOption) (*ListPetsResponse, error) {
+	out := new(ListPetsResponse)
+	err := c.cc.Invoke(ctx, "/hashipet.v1.HashiPetService/ListPets", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *hashiPetServiceClient) DeletePet(ctx context.Context, in *DeletePetRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/hashipet.v1.HashiPetService/DeletePet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// HashiPetServiceServer is the server API for HashiPetService service.
+// All implementations should embed UnimplementedHashiPetServiceServer
 // for forward compatibility
-type PetServiceServer interface {
+type HashiPetServiceServer interface {
+	CreatePet(context.Context, *CreatePetRequest) (*CreatePetResponse, error)
 	GetPet(context.Context, *GetPetRequest) (*GetPetResponse, error)
+	ListPets(context.Context, *ListPetsRequest) (*ListPetsResponse, error)
+	DeletePet(context.Context, *DeletePetRequest) (*emptypb.Empty, error)
 }
 
-// UnimplementedPetServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedPetServiceServer struct {
+// UnimplementedHashiPetServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedHashiPetServiceServer struct {
 }
 
-func (UnimplementedPetServiceServer) GetPet(context.Context, *GetPetRequest) (*GetPetResponse, error) {
+func (UnimplementedHashiPetServiceServer) CreatePet(context.Context, *CreatePetRequest) (*CreatePetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePet not implemented")
+}
+func (UnimplementedHashiPetServiceServer) GetPet(context.Context, *GetPetRequest) (*GetPetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPet not implemented")
 }
+func (UnimplementedHashiPetServiceServer) ListPets(context.Context, *ListPetsRequest) (*ListPetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPets not implemented")
+}
+func (UnimplementedHashiPetServiceServer) DeletePet(context.Context, *DeletePetRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePet not implemented")
+}
 
-// UnsafePetServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PetServiceServer will
+// UnsafeHashiPetServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to HashiPetServiceServer will
 // result in compilation errors.
-type UnsafePetServiceServer interface {
-	mustEmbedUnimplementedPetServiceServer()
+type UnsafeHashiPetServiceServer interface {
+	mustEmbedUnimplementedHashiPetServiceServer()
 }
 
-func RegisterPetServiceServer(s grpc.ServiceRegistrar, srv PetServiceServer) {
-	s.RegisterService(&PetService_ServiceDesc, srv)
+func RegisterHashiPetServiceServer(s grpc.ServiceRegistrar, srv HashiPetServiceServer) {
+	s.RegisterService(&HashiPetService_ServiceDesc, srv)
 }
 
-func _PetService_GetPet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _HashiPetService_CreatePet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HashiPetServiceServer).CreatePet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/hashipet.v1.HashiPetService/CreatePet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HashiPetServiceServer).CreatePet(ctx, req.(*CreatePetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HashiPetService_GetPet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetPetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PetServiceServer).GetPet(ctx, in)
+		return srv.(HashiPetServiceServer).GetPet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/hashipet.v1.PetService/GetPet",
+		FullMethod: "/hashipet.v1.HashiPetService/GetPet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PetServiceServer).GetPet(ctx, req.(*GetPetRequest))
+		return srv.(HashiPetServiceServer).GetPet(ctx, req.(*GetPetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// PetService_ServiceDesc is the grpc.ServiceDesc for PetService service.
+func _HashiPetService_ListPets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPetsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HashiPetServiceServer).ListPets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/hashipet.v1.HashiPetService/ListPets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HashiPetServiceServer).ListPets(ctx, req.(*ListPetsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HashiPetService_DeletePet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HashiPetServiceServer).DeletePet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/hashipet.v1.HashiPetService/DeletePet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HashiPetServiceServer).DeletePet(ctx, req.(*DeletePetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// HashiPetService_ServiceDesc is the grpc.ServiceDesc for HashiPetService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var PetService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "hashipet.v1.PetService",
-	HandlerType: (*PetServiceServer)(nil),
+var HashiPetService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "hashipet.v1.HashiPetService",
+	HandlerType: (*HashiPetServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CreatePet",
+			Handler:    _HashiPetService_CreatePet_Handler,
+		},
+		{
 			MethodName: "GetPet",
-			Handler:    _PetService_GetPet_Handler,
+			Handler:    _HashiPetService_GetPet_Handler,
+		},
+		{
+			MethodName: "ListPets",
+			Handler:    _HashiPetService_ListPets_Handler,
+		},
+		{
+			MethodName: "DeletePet",
+			Handler:    _HashiPetService_DeletePet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

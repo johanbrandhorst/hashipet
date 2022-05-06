@@ -3,6 +3,7 @@ syntax = "proto3";
 package hashipet.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
@@ -25,18 +26,43 @@ enum Species {
 
 message Pet {
   string name = 1;
-  int32 age = 2;
-  string owner = 3;
-  Species species = 4;
+  string owner = 2;
+  Species species = 3;
+  string picture_url = 4;
 }
 
-service PetService {
-  rpc GetPet(GetPetRequest) returns (GetPetResponse) {
+service HashiPetService {
+  rpc CreatePet(CreatePetRequest) returns (CreatePetResponse) {
     option (google.api.http) = {
-      get: "/v1/pet/{name}",
+      post: "/v1/pets",
+      body: "pet",
       response_body: "pet",
     };
   }
+  rpc GetPet(GetPetRequest) returns (GetPetResponse) {
+    option (google.api.http) = {
+      get: "/v1/pets/{name}",
+      response_body: "pet",
+    };
+  }
+  rpc ListPets(ListPetsRequest) returns (ListPetsResponse) {
+    option (google.api.http) = {
+      get: "/v1/pets",
+    };
+  }
+  rpc DeletePet(DeletePetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/pets/{name}",
+    };
+  }
+}
+
+message CreatePetRequest {
+  Pet pet = 1;
+}
+
+message CreatePetResponse {
+  Pet pet = 1;
 }
 
 message GetPetRequest {
@@ -45,4 +71,14 @@ message GetPetRequest {
 
 message GetPetResponse {
   Pet pet = 1;
+}
+
+message ListPetsRequest {}
+
+message ListPetsResponse {
+  repeated Pet pets = 1;
+}
+
+message DeletePetRequest {
+  string name = 1;
 }
